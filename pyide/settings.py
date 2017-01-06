@@ -25,7 +25,7 @@ SECRET_KEY = '9*5b00ymeq)$a7rigk^o5bzj4&#^6s9b+xt48d@tv6=yt807uh'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [pyide.herokuapp.com]
+ALLOWED_HOSTS = [*]
 
 
 # Application definition
