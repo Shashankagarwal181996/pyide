@@ -1,0 +1,1 @@
+web: gunicorn pyide.wsgi --pythonpath ../pyide --log-file -
