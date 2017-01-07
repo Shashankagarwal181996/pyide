@@ -24,11 +24,15 @@ def index(request):
 	context_list = {}
 	return render_to_response("ide.html",context_list,RequestContext(request))
 
+
 def compile(request):
+	print "hello"
 	COMPILE_URL = "http://api.hackerearth.com/code/compile/"
 	CLIENT_SECRET = "cac1db5448cc656abf0470f436d47f3e5d8d45c0"
-	source = request.POST.get('code')
-	lang = request.POST.get('langugae')
+	source = request.GET.get('code')
+	print source
+	lang = request.GET.get('language')
+	lang = lang.upper()
 	data = {
 		'client_secret': CLIENT_SECRET,
 		'async': 0,
@@ -38,4 +42,4 @@ def compile(request):
 		'memory_limit': 262144,
 	}
 	r = requests.post(COMPILE_URL,data=data)
-	print r.json
+	print r.json()['run_status']
