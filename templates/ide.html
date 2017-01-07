@@ -108,7 +108,9 @@
 						"csrfmiddlewaretoken": getCookie("csrftoken"),
 					},
 					success: function(data){
-
+						console.log(data[0].compile_status);
+						$("#output").html(data[0].compile_status);
+						$("#output").show();
 					}
 				});
 			});

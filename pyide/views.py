@@ -44,11 +44,13 @@ def compile(request):
 	}
 	r = requests.post(COMPILE_URL,data=data)
 	print r.json()
-	run_status = r.json()['run_status']
+	compile_status = r.json()['compile_status']
 	context_list = {
-		'run_status': run_status,
+		'compile_status': compile_status,
 	}
-	return render(request,'ide.html',context_list)
+	ret_value = []
+	ret_value.append(context_list)
+	return HttpResponse(json.dumps(ret_value),content_type="application/json")
 
 def run(request):
 	RUN_URL = "http://api.hackerearth.com/code/run/"
