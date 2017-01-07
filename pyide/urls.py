@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index,name="homepage"),
     url(r'^compile/', views.compile,name="compile"),
+    url(r'^run/', views.run,name="run"),
 
 ]
 urlpatterns += staticfiles_urlpatterns()

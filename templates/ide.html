@@ -14,7 +14,8 @@
 </style>
 </head>
 <body>
-<select id="language" style="padding: 5px; margin-top: 30px">
+<body background="{% static "images/coder.jpeg" %}">
+<select id="language" style="padding: 5px;float:left; margin-top: 30px">
 	<option  selected value="javascript">Javascript</option>
 	<option value="python">Python</option>
 	<option value="c">C</option>
@@ -28,12 +29,21 @@
 	<option value="java">Java</option>
 	<option value="c#">C#</option>
 </select>
-<div id="editor" class="source code" style=" float:left;padding:20px; margin-top: 90px;margin-bottom: 100px;margin-right: 600px">
+<div id="editor" class="source code" style=" float:left;padding:20px; margin-top: 200px;margin-bottom: 100px;margin-right: 600px">
 <!-- function foo(items) {
 	var x = "All this is syntax highlighted";
 	return x;
 } -->
 </div>
+<div id="output" class="ouput" style="float:left;margin-top:80px">
+		<button id="compile" class="compile">Compile</button>
+	<button id="run" class="run">Run</button>
+	<textarea id="outputs" class="outputs" rows="4" cols="20">
+		{{ouputs}}
+	</textarea>
+
+</div>
+
 <script src="/static/js/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="/static/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 
@@ -57,8 +67,7 @@
 	});
 	
 </script>
-<button id="compile" class="compile">Compile</button>
-<button id="run" class="run">Run</button>
+
 </body>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -99,6 +108,46 @@
 					},
 					success: function(data){
 
+					}
+				});
+			});
+			$(".run").click(function(){
+				var editor = ace.edit("editor");
+				code = editor.getValue();
+				console.log(code);
+				console.log(language);
+				
+				function getCookie(name) {
+				    var cookieValue = null;
+				    if (document.cookie && document.cookie != '') {
+				        var cookies = document.cookie.split(';');
+				        for (var i = 0; i < cookies.length; i++) {
+				            var cookie = jQuery.trim(cookies[i]);
+				            // Does this cookie string begin with the name we want?
+				            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+				                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+				                break;
+				            }
+				        }
+				    }
+				    return cookieValue;
+				}
+				var csrftoken = getCookie('csrftoken');
+
+				$.ajax({
+					type:"GET",
+					url: "/run/",
+					data:{
+						"code" : code,
+						"language": language,
+						// "X-CSRFToken": csrftoken,
+						"csrfmiddlewaretoken": getCookie("csrftoken"),
+					},
+					success: function(data){
+						console.log("hello in success");
+						console.log(data[0].outputs);
+						$("#output").html(data[0].outputs);
+						$("#output").show();
 					}
 				});
 			});
